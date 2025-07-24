@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Hero Section -->
+<section id="hero" class="hero">
+  <div class="container hero-content-wrapper">
+    <!-- Left: Welcome Text and Buttons -->
+    <div class="hero-left">
+      <h1 class="hero-title">{{ welcome_message.title|default:"👋 Hello there, I’m Koustava Medya" }}</h1>
+      <p class="hero-subtitle">{{ welcome_message.subtitle|default:"An Applied Mathematics student with a creative tech spark!" }}</p>
+      <div class="hero-buttons-wrapper">
+        {% if welcome_message.button_text_1 and welcome_message.button_link_1 %}
+        <a href="{{ welcome_message.button_link_1 }}" class="btn btn-primary">{{ welcome_message.button_text_1 }}</a>
+        {% endif %}
+        {% if welcome_message.button_text_2 and welcome_message.button_link_2 %}
+        <a href="{{ welcome_message.button_link_2 }}" class="btn btn-secondary">{{ welcome_message.button_text_2 }}</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Right: Services Grid -->
+    <div class="hero-right">
+      <div class="services-grid">
+        {% if welcome_message.service_item_1 %}
+        <div class="service-item"><span>{{ welcome_message.service_item_1 }}</span></div>
+        {% endif %}
+        {% if welcome_message.service_item_2 %}
+        <div class="service-item"><span>{{ welcome_message.service_item_2 }}</span></div>
+        {% endif %}
+        {% if welcome_message.service_item_3 %}
+        <div class="service-item"><span>{{ welcome_message.service_item_3 }}</span></div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About section -->
+<section id="about" class="about section">
+  <div class="container">
+    <h2>About Me</h2>
+    {% if about %}
+    <p>{{ about.content }}</p>
+    <div class="hero-image-container">
+      <img src="/media/about/1000076324.webp" alt="About Image" class="hero-image" />
+    </div>
+    {% else %}
+    <p>🧠 I'm a curious learner and a problem solver — more details coming soon!</p>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Tech Stack Section -->
+<section id="tech-stack" class="tech-stack section">
+  <div class="container">
+    <h2>My Tech Stack</h2>
+    <ul class="tech-stack-list">
+      {% for skill in skills %}
+      <li>{{ skill.name }}</li>
+      {% empty %}
+      <li>🧰 Currently adding tools from my toolbox... stay tuned!</li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<!-- Achievements Section -->
+<section id="achievements" class="achievements section">
+  <div class="container">
+    <h2>Achievements & Certifications</h2>
+    <div class="achievement-grid" id="achievements-grid">
+      {% for achievement in achievements %}
+      <div class="achievement-item">
+        <h3>{{ achievement.title }}</h3>
+        {% if achievement.date %}
+        <p class="achievement-date">{{ achievement.date|date:"F Y" }}</p>
+        {% endif %}
+        {% if achievement.description %}
+        <p>{{ achievement.description }}</p>
+        {% endif %}
+      </div>
+      {% empty %}
+      <p>🎖️ Earning badges of honor soon... watch this space!</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="projects section">
+  <div class="container">
+    <h2>Projects</h2>
+    <p>
+      ‍ Initializing project showcase...<br>
+      While the matrix loads, explore my work at
+      <a href="{% url 'project_list' %}">GitHub HQ</a>
+    </p>
+  </div>
+</section>
+
+<!-- Experience Section -->
+<section id="experience" class="experience section">
+  <div class="container">
+    <h2>Experience</h2>
+    <div class="experience-grid">
+      {% for experience in experiences %}
+      <div class="experience-item">
+        <h3>{{ experience.title }}</h3>
+        <p class="company">{{ experience.company }}</p>
+        <p class="duration">{{ experience.start_date|date:"F Y" }} - {% if experience.end_date %}{{ experience.end_date|date:"F Y" }}{% else %}Present{% endif %}</p>
+        <p>{{ experience.description }}</p>
+      </div>
+      {% empty %}
+      <p>
+        <strong>No formal experience at this time.</strong>
+        <br> 🛠️ Hands-on skills in progress. Stay tuned!
+      </p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact section">
+  <div class="container">
+    <h2>Get In Touch</h2>
+    <p class="contact-description">🚀 Have a cool idea or just want to connect? I’d love to hear from you.</p>
+
+    {% if contact %}
+    <form id="contact-form" action="{{ contact.formspree_url|default:'https://formspree.io/f/example-form-id' }}" method="POST" class="contact-form-grid">
+      <div>
+        <label for="name" class="form-label">Name</label>
+        <input type="text" id="name" name="name" required class="form-input" />
+      </div>
+
+      <div>
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" name="email" required class="form-input" />
+      </div>
+
+      <div>
+        <label for="subject" class="form-label">Subject</label>
+        <input type="text" id="subject" name="subject" required class="form-input" />
+      </div>
+
+      <div>
+        <label for="message" class="form-label">Message</label>
+        <textarea id="message" name="message" rows="4" required class="form-input"></textarea>
+      </div>
+
+      <button type="submit" class="form-submit-btn" data-text="Send Message">
+        Send Message
+      </button>
+    </form>
+    <div id="form-status"></div>
+    {% else %}
+    <p>📬 Contact form will be activated soon. Stay tuned!</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
