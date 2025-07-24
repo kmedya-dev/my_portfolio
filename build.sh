@@ -10,7 +10,10 @@ python manage.py migrate
 # Create superuser non-interactively using environment variables
 # IMPORTANT: Set DJANGO_SUPERUSER_USERNAME, DJANGO_SUPERUSER_EMAIL, DJANGO_SUPERUSER_PASSWORD
 # in Render environment variables, NOT hardcoded here.
-python manage.py shell <<EOF
+if [ -z "$DJANGO_SUPERUSER_USERNAME" ] || [ -z "$DJANGO_SUPERUSER_EMAIL" ] || [ -z "$DJANGO_SUPERUSER_PASSWORD" ]; then
+  echo "Skipping superuser creation: DJANGO_SUPERUSER_USERNAME, DJANGO_SUPERUSER_EMAIL, or DJANGO_SUPERUSER_PASSWORD environment variables are not set."
+else
+  python manage.py shell <<EOF
 import os
 from django.contrib.auth import get_user_model
 
@@ -25,3 +28,4 @@ if not User.objects.filter(username=username).exists():
 else:
     print(f'Superuser {username} already exists.')
 EOF
+fi
